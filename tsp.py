@@ -24,7 +24,7 @@ MUTATION_RATE = 0.01
 GENERATIONS = 1000
 
 class Node:
-    def _init_(self, x, y):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
 
@@ -32,10 +32,10 @@ class Node:
         canvas.create_oval(self.x-city_scale, self.y-city_scale, self.x+city_scale, self.y+city_scale, fill=color)
 
 class Edge:
-    def _init_(self, a, b):
+    def __init__(self, a, b):
         self.city_a = a
         self.city_b = b
-        self.length = math.sqrt((a.x - b.x) * 2 + (a.y - b.y) * 2)
+        self.length = math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
 
     def draw(self, canvas, color='grey', style=(2, 4)):
         canvas.create_line(self.city_a.x,
@@ -47,7 +47,7 @@ class Edge:
                            dash=style)
 
 class AntColonyOptimization:
-    def _init_(self, cities):
+    def __init__(self, cities):
         self.cities = cities
         self.num_cities = len(cities)
         self.pheromone = np.ones((self.num_cities, self.num_cities))
@@ -55,7 +55,7 @@ class AntColonyOptimization:
         self.best_distance = float('inf')
 
     def distance(self, city1, city2):
-        return math.sqrt((city1.x - city2.x)*2 + (city1.y - city2.y)*2)
+        return math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
 
     def run(self, ui):
         for iteration in range(MAX_ITERATIONS):
@@ -94,7 +94,7 @@ class AntColonyOptimization:
         for city in unvisited:
             pheromone = self.pheromone[current][city]
             distance = self.distance(self.cities[current], self.cities[city])
-            probability = (pheromone * ALPHA) * ((1.0 / distance) * BETA)
+            probability = (pheromone ** ALPHA) * ((1.0 / distance) ** BETA)
             probabilities.append((city, probability))
 
         total = sum(prob for _, prob in probabilities)
@@ -125,7 +125,7 @@ class AntColonyOptimization:
                 self.best_path = path
 
 class GeneticAlgorithm:
-    def _init_(self, cities):
+    def __init__(self, cities):
         self.cities = cities
         self.population = []
         self.best_solution = None
@@ -142,7 +142,7 @@ class GeneticAlgorithm:
         for i in range(len(chromosome)):
             city1 = self.cities[chromosome[i]]
             city2 = self.cities[chromosome[(i + 1) % len(chromosome)]]
-            total_distance += math.sqrt((city1.x - city2.x)*2 + (city1.y - city2.y)*2)
+            total_distance += math.sqrt((city1.x - city2.x)**2 + (city1.y - city2.y)**2)
         return total_distance
 
     def select_parents(self):
@@ -188,8 +188,8 @@ class GeneticAlgorithm:
         return self.best_solution
 
 class UI(tk.Tk):
-    def _init_(self):
-        tk.Tk._init_(self)
+    def __init__(self):
+        tk.Tk.__init__(self)
         self.title("Traveling Salesman")
         self.option_add("*tearOff", FALSE)
         width, height = self.winfo_screenwidth(), self.winfo_screenheight()

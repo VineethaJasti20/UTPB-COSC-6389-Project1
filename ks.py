@@ -32,7 +32,7 @@ def random_rgb_color():
 
 
 class Item:
-    def _init_(self):
+    def __init__(self):
         self.value = random.randint(min_value, max_value)
         self.color = random_rgb_color()
         self.x = 0
@@ -67,8 +67,8 @@ class Item:
 
 
 class UI(tk.Tk):
-    def _init_(self):
-        tk.Tk._init_(self)
+    def __init__(self):
+        tk.Tk.__init__(self)
         self.title("Knapsack")
         self.option_add("*tearOff", FALSE)
         self.width, self.height = self.winfo_screenwidth(), self.winfo_screenheight()
